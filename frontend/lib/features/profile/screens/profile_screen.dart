@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../booking/providers/booking_provider.dart';
 import '../../booking/screens/booking_details_screen.dart';
+import '../../address/screens/addresses_list_screen.dart';
+import '../../notification/screens/notifications_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -138,9 +140,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 icon: Icons.location_on,
                 title: 'Mes adresses',
                 onTap: () {
-                  // Navigate to addresses screen
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Fonctionnalité à venir')),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AddressesListScreen(),
+                    ),
                   );
                 },
               ),
@@ -160,9 +164,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 icon: Icons.notifications,
                 title: 'Notifications',
                 onTap: () {
-                  // Navigate to notifications screen
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Fonctionnalité à venir')),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NotificationsScreen(),
+                    ),
                   );
                 },
               ),

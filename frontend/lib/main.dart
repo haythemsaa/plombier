@@ -7,6 +7,8 @@ import 'features/booking/providers/booking_provider.dart';
 import 'features/booking/providers/review_provider.dart';
 import 'features/services/providers/service_provider.dart';
 import 'features/services/providers/provider_provider.dart';
+import 'features/address/providers/address_provider.dart';
+import 'features/notification/providers/notification_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +36,12 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => ProviderProvider(apiService),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AddressProvider(apiService),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => NotificationProvider(apiService),
         ),
       ],
       child: const ServiceHubApp(),
