@@ -277,12 +277,14 @@ flutter test
 ## 📊 Métriques de Code
 
 - **Backend**: ~8000+ lignes de code
-- **Frontend**: ~3000+ lignes de code
-- **Total fichiers**: 100+
+- **Frontend**: ~6000+ lignes de code (Flutter)
+- **Total fichiers**: 115+
 - **API Endpoints**: 40+
-- **Flutter Screens**: 6
-- **Widgets réutilisables**: 10+
-- **Services métier**: 5 (BookingService, MatchingService, ReviewService, PaymentService, NotificationService)
+- **Flutter Screens**: 10+ (Login, Home, ServicesList, ProvidersList, ProviderDetails, CreateBooking, BookingDetails, ReviewsList, SubmitReview, Profile)
+- **Flutter Providers**: 5 (Auth, Booking, Review, Service, Provider)
+- **Widgets réutilisables**: 15+ (RatingStars, ReviewCard, ServiceCard, ProviderCard, etc.)
+- **Services métier Backend**: 5 (BookingService, MatchingService, ReviewService, PaymentService, NotificationService)
+- **Middleware Backend**: 1 (EnsureUserIsProvider)
 
 ## 🧪 Comptes de Test
 
