@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ProviderController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\HealthController;
+use App\Http\Controllers\Api\AnalyticsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -75,6 +76,16 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Refunds
     Route::post('/payments/{id}/refund', [App\Http\Controllers\Api\PaymentController::class, 'refund']);
+
+    // Analytics
+    Route::prefix('analytics')->group(function () {
+        Route::get('/admin/dashboard', [AnalyticsController::class, 'adminDashboard']);
+        Route::get('/admin/cohorts', [AnalyticsController::class, 'cohortAnalysis']);
+        Route::get('/admin/realtime', [AnalyticsController::class, 'realTimeKPIs']);
+        Route::get('/admin/export', [AnalyticsController::class, 'export']);
+        Route::get('/provider/dashboard', [AnalyticsController::class, 'providerDashboard']);
+        Route::get('/client/dashboard', [AnalyticsController::class, 'clientDashboard']);
+    });
 
     // Provider specific routes
     Route::middleware('provider')->group(function () {
