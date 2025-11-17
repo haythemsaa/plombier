@@ -235,6 +235,55 @@ docker-compose exec backend php artisan db:seed
 - ✅ Configuration production-ready
 - ✅ Documentation complète (DOCKER.md)
 
+### 12. CI/CD & DevOps ⚡ **NOUVEAU**
+- ✅ **GitHub Actions** pipeline automatisé
+- ✅ Tests automatiques (Backend PHPUnit + Frontend Flutter)
+- ✅ Vérification qualité de code (PHPStan, PHP-CS-Fixer)
+- ✅ Scan de sécurité avec Trivy
+- ✅ Build et déploiement Docker automatique
+- ✅ Génération de coverage reports
+- ✅ Déploiement automatique en production
+
+### 13. Tests Automatisés ⚡ **NOUVEAU**
+- ✅ **10+ tests PHPUnit** (unitaires + intégration)
+- ✅ Tests BookingService (tarification, surcharges)
+- ✅ Tests Authentication (register, login, permissions)
+- ✅ Tests Booking CRUD complet
+- ✅ Configuration PostgreSQL pour tests
+- ✅ Génération de coverage HTML
+
+### 14. Documentation API Interactive ⚡ **NOUVEAU**
+- ✅ **Swagger/OpenAPI** configuration complète
+- ✅ Documentation interactive UI
+- ✅ 8 catégories d'endpoints documentés
+- ✅ Authentification Sanctum intégrée
+- ✅ Accessible via `/api/documentation`
+
+### 15. Internationalisation (i18n) ⚡ **NOUVEAU**
+- ✅ **3 langues**: Anglais, Français, Arabe
+- ✅ **80+ chaînes traduites** par langue
+- ✅ Changement de langue en temps réel
+- ✅ Persistance de la préférence utilisateur
+- ✅ Support RTL pour l'arabe
+- ✅ Délégués de localisation Flutter
+
+### 16. Mode Sombre ⚡ **NOUVEAU**
+- ✅ **Thème complet** light et dark
+- ✅ Changement de thème en temps réel
+- ✅ Persistance de la préférence utilisateur
+- ✅ Material Design 3 colors
+- ✅ Cohérence UI sur tous les écrans
+- ✅ Palette de couleurs optimisée
+
+### 17. Filtres de Recherche Avancés ⚡ **NOUVEAU**
+- ✅ **Filtre par prix** (fourchette min/max)
+- ✅ **Filtre par distance** (slider 1-50 km)
+- ✅ **Filtre par note** (1 à 4.5 étoiles)
+- ✅ **Prestataires vérifiés uniquement**
+- ✅ **Tri multiple**: note, prix, distance
+- ✅ Interface bottom sheet interactive
+- ✅ Génération automatique de query params
+
 ## 🗄️ Base de Données
 
 **15 tables PostgreSQL implémentées:**
@@ -327,16 +376,21 @@ flutter test
 
 ## 📊 Métriques de Code
 
-- **Backend**: ~8000+ lignes de code
-- **Frontend**: ~9000+ lignes de code (Flutter)
-- **Total fichiers**: 135+
+- **Backend**: ~10000+ lignes de code
+- **Frontend**: ~12000+ lignes de code (Flutter)
+- **Total fichiers**: 150+
 - **API Endpoints**: 40+
-- **Flutter Screens**: 13+ (Login, Home, ServicesList, ProvidersList, ProviderDetails, CreateBooking, BookingDetails, ReviewsList, SubmitReview, Profile, AddressesList, AddAddress, EditAddress, Notifications, ProviderDashboard)
-- **Flutter Providers**: 7 (Auth, Booking, Review, Service, Provider, Address, Notification)
-- **Widgets réutilisables**: 20+ (RatingStars, ReviewCard, ServiceCard, ProviderCard, AddressCard, NotificationCard, etc.)
+- **Flutter Screens**: 13+
+- **Flutter Providers**: 9 ⚡ (Auth, Booking, Review, Service, Provider, Address, Notification, **Locale, Theme**)
+- **Widgets réutilisables**: 25+ (incluant filtres avancés)
 - **Services métier Backend**: 5 (BookingService, MatchingService, ReviewService, PaymentService, NotificationService)
 - **Middleware Backend**: 1 (EnsureUserIsProvider)
+- **Tests PHPUnit**: 10+ ⚡ (unitaires + feature)
+- **CI/CD Jobs**: 6 ⚡ (tests, quality, build, security, deploy)
+- **Langues supportées**: 3 ⚡ (EN, FR, AR avec 80+ strings chacune)
+- **Thèmes**: 2 ⚡ (Light + Dark Mode complet)
 - **Configuration Docker**: 4 services (Postgres, Redis, Backend, Queue Worker)
+- **GitHub Actions**: Pipeline automatisé complet ⚡
 
 ## 🧪 Comptes de Test
 
