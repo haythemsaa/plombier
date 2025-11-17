@@ -99,6 +99,24 @@ class ApiService {
     });
   }
 
+  Future<Response> getProviderReviews(String providerId) async {
+    return await _dio.get('/providers/$providerId/reviews');
+  }
+
+  Future<Response> getMyReviews() async {
+    return await _dio.get('/my-reviews');
+  }
+
+  Future<Response> getReviewsAboutMe() async {
+    return await _dio.get('/reviews-about-me');
+  }
+
+  Future<Response> respondToReview(int reviewId, String response) async {
+    return await _dio.post('/reviews/$reviewId/response', data: {
+      'response': response,
+    });
+  }
+
   // Payments endpoints
   Future<Response> initiatePayment(String bookingId, String method) async {
     return await _dio.post('/payments/initiate', data: {
