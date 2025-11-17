@@ -127,6 +127,33 @@ flutter run -d ios
 flutter run -d android
 ```
 
+### 🐳 Déploiement Docker (Recommandé pour Production)
+
+```bash
+# 1. Copier le fichier d'environnement
+cp .env.example .env
+
+# 2. Modifier .env avec vos configurations
+# (DB_PASSWORD, APP_URL, etc.)
+
+# 3. Démarrer tous les services (Postgres + Redis + Backend + Queue)
+docker-compose up -d --build
+
+# 4. Initialiser la base de données
+docker-compose exec backend php artisan migrate
+docker-compose exec backend php artisan db:seed
+
+# 5. L'API est disponible sur http://localhost:8000
+```
+
+**Services Docker disponibles:**
+- **Backend API**: http://localhost:8000
+- **PostgreSQL**: localhost:5432
+- **Redis**: localhost:6379
+- **Queue Worker**: Traitement automatique des jobs
+
+📖 **Guide complet**: Voir [DOCKER.md](./DOCKER.md) pour la documentation détaillée
+
 ## ✅ Fonctionnalités Implémentées
 
 ### 1. Authentification & Utilisateurs
@@ -183,6 +210,30 @@ flutter run -d android
 - ✅ Notifications intelligentes (réservation, avis, paiement)
 - ✅ Statut lu/non-lu et compteur
 - ✅ 4 endpoints API
+- ✅ **UI Flutter** complète avec badge temps réel
+
+### 9. Gestion des Adresses
+- ✅ CRUD complet (Liste, Ajout, Modification, Suppression)
+- ✅ Adresses multiples par utilisateur
+- ✅ Système d'adresse par défaut
+- ✅ Instructions de livraison personnalisées
+- ✅ **UI Flutter** complète avec formulaires validés
+
+### 10. Dashboard Prestataire
+- ✅ Statistiques en temps réel (réservations, revenus)
+- ✅ Vue d'ensemble des missions (en attente, confirmées, en cours, complétées)
+- ✅ Indicateurs de performance
+- ✅ Liste des réservations à venir
+- ✅ **UI Flutter** avec graphiques et cartes statistiques
+
+### 11. Déploiement Docker
+- ✅ Docker Compose complet (4 services)
+- ✅ PostgreSQL 15 avec persistance
+- ✅ Redis 7 pour cache et queues
+- ✅ Nginx + PHP-FPM optimisé
+- ✅ Queue Worker pour jobs asynchrones
+- ✅ Configuration production-ready
+- ✅ Documentation complète (DOCKER.md)
 
 ## 🗄️ Base de Données
 
@@ -277,14 +328,15 @@ flutter test
 ## 📊 Métriques de Code
 
 - **Backend**: ~8000+ lignes de code
-- **Frontend**: ~6000+ lignes de code (Flutter)
-- **Total fichiers**: 115+
+- **Frontend**: ~9000+ lignes de code (Flutter)
+- **Total fichiers**: 135+
 - **API Endpoints**: 40+
-- **Flutter Screens**: 10+ (Login, Home, ServicesList, ProvidersList, ProviderDetails, CreateBooking, BookingDetails, ReviewsList, SubmitReview, Profile)
-- **Flutter Providers**: 5 (Auth, Booking, Review, Service, Provider)
-- **Widgets réutilisables**: 15+ (RatingStars, ReviewCard, ServiceCard, ProviderCard, etc.)
+- **Flutter Screens**: 13+ (Login, Home, ServicesList, ProvidersList, ProviderDetails, CreateBooking, BookingDetails, ReviewsList, SubmitReview, Profile, AddressesList, AddAddress, EditAddress, Notifications, ProviderDashboard)
+- **Flutter Providers**: 7 (Auth, Booking, Review, Service, Provider, Address, Notification)
+- **Widgets réutilisables**: 20+ (RatingStars, ReviewCard, ServiceCard, ProviderCard, AddressCard, NotificationCard, etc.)
 - **Services métier Backend**: 5 (BookingService, MatchingService, ReviewService, PaymentService, NotificationService)
 - **Middleware Backend**: 1 (EnsureUserIsProvider)
+- **Configuration Docker**: 4 services (Postgres, Redis, Backend, Queue Worker)
 
 ## 🧪 Comptes de Test
 
