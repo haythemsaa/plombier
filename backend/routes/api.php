@@ -63,8 +63,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Notifications
     Route::get('/notifications', [App\Http\Controllers\Api\NotificationController::class, 'index']);
+    Route::get('/notifications/unread-count', [App\Http\Controllers\Api\NotificationController::class, 'unreadCount']);
     Route::post('/notifications/{id}/read', [App\Http\Controllers\Api\NotificationController::class, 'markAsRead']);
     Route::post('/notifications/read-all', [App\Http\Controllers\Api\NotificationController::class, 'markAllAsRead']);
+
+    // Refunds
+    Route::post('/payments/{id}/refund', [App\Http\Controllers\Api\PaymentController::class, 'refund']);
 
     // Provider specific routes
     Route::middleware('provider')->group(function () {
