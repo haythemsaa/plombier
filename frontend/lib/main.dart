@@ -4,6 +4,9 @@ import 'core/services/api_service.dart';
 import 'core/services/storage_service.dart';
 import 'features/auth/providers/auth_provider.dart';
 import 'features/booking/providers/booking_provider.dart';
+import 'features/booking/providers/review_provider.dart';
+import 'features/services/providers/service_provider.dart';
+import 'features/services/providers/provider_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +25,15 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => BookingProvider(apiService),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ReviewProvider(apiService),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ServiceProvider(apiService),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProviderProvider(apiService),
         ),
       ],
       child: const ServiceHubApp(),

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../services/screens/services_list_screen.dart';
+import '../../booking/providers/booking_provider.dart';
+import '../../booking/screens/booking_details_screen.dart';
+import '../../profile/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -162,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     return SizedBox(
-      height': 120,
+      height: 120,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -245,20 +250,221 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildSearchTab() {
-    return const Center(
-      child: Text('Recherche'),
-    );
+    return const ServicesListScreen();
   }
 
   Widget _buildBookingsTab() {
-    return const Center(
-      child: Text('Réservations'),
+    return Consumer<BookingProvider>(
+      builder: (context, bookingProvider, child) {
+        // Fetch bookings when tab is first loaded
+        if (bookingProvider.bookings.isEmpty && !bookingProvider.isLoading) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            bookingProvider.fetchMyBookings();
+          });
+        }
+
+        if (bookingProvider.isLoading && bookingProvider.bookings.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (bookingProvider.bookings.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.book_outlined, size: 64, color: Colors.grey[400]),
+                const SizedBox(height: 16),
+                Text(
+                  'Aucune réservation',
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Vos réservations apparaîtront ici',
+                  style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    setState(() => _selectedIndex = 1); // Go to search tab
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text('Nouvelle réservation'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return RefreshIndicator(
+          onRefresh: () => bookingProvider.fetchMyBookings(),
+          child: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: bookingProvider.bookings.length,
+            itemBuilder: (context, index) {
+              final booking = bookingProvider.bookings[index];
+              return _BookingListCard(
+                booking: booking,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookingDetailsScreen(
+                        bookingId: booking['id'],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
   Widget _buildProfileTab() {
-    return const Center(
-      child: Text('Profil'),
+    return const ProfileScreen();
+  }
+}
+
+class _BookingListCard extends StatelessWidget {
+  final Map<String, dynamic> booking;
+  final VoidCallback onTap;
+
+  const _BookingListCard({
+    required this.booking,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final status = booking['status'] ?? 'pending';
+    final scheduledAt = DateTime.tryParse(booking['scheduled_at'] ?? '');
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Réservation #${booking['reference_number'] ?? booking['id']}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  _StatusBadge(status: status),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
+                  const SizedBox(width: 8),
+                  Text(
+                    scheduledAt != null ? _formatDate(scheduledAt) : 'N/A',
+                    style: TextStyle(color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(Icons.attach_money, size: 16, color: Colors.grey[600]),
+                  const SizedBox(width: 8),
+                  Text(
+                    '${booking['total_price'] ?? 0} TND',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _formatDate(DateTime date) {
+    final months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
+    return '${date.day} ${months[date.month - 1]} ${date.year} à ${date.hour}:${date.minute.toString().padLeft(2, '0')}';
+  }
+}
+
+class _StatusBadge extends StatelessWidget {
+  final String status;
+
+  const _StatusBadge({required this.status});
+
+  @override
+  Widget build(BuildContext context) {
+    Color backgroundColor;
+    Color textColor;
+    String label;
+
+    switch (status) {
+      case 'pending':
+        backgroundColor = Colors.orange[100]!;
+        textColor = Colors.orange[900]!;
+        label = 'En attente';
+        break;
+      case 'confirmed':
+        backgroundColor = Colors.blue[100]!;
+        textColor = Colors.blue[900]!;
+        label = 'Confirmé';
+        break;
+      case 'in_progress':
+        backgroundColor = Colors.purple[100]!;
+        textColor = Colors.purple[900]!;
+        label = 'En cours';
+        break;
+      case 'completed':
+        backgroundColor = Colors.green[100]!;
+        textColor = Colors.green[900]!;
+        label = 'Terminé';
+        break;
+      case 'cancelled':
+        backgroundColor = Colors.red[100]!;
+        textColor = Colors.red[900]!;
+        label = 'Annulé';
+        break;
+      default:
+        backgroundColor = Colors.grey[100]!;
+        textColor = Colors.grey[900]!;
+        label = status;
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: textColor,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }
