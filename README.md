@@ -384,11 +384,66 @@ docker-compose exec backend php artisan db:seed
 - ✅ Migration progressive facilitée
 - ✅ Routes séparées par version
 
+### 30. Chat Temps Réel 🚀 **V2.0**
+- ✅ **WebSockets** avec Socket.IO / Laravel Echo
+- ✅ Messages: texte, image, localisation, système
+- ✅ **Read receipts** & delivery status
+- ✅ **Typing indicators** en temps réel
+- ✅ Unread count tracking
+- ✅ Push notifications sur nouveaux messages
+- ✅ Historique conversations complet
+- ✅ Flutter chat service (310 lignes)
+
+### 31. Calendrier de Disponibilité 🚀 **V2.0**
+- ✅ **Planning hebdomadaire** (jours/heures)
+- ✅ **Créneaux bloqués** pour dates spécifiques
+- ✅ Auto-détection slots disponibles
+- ✅ Intervalles de 30 minutes
+- ✅ Détection conflits avec réservations
+- ✅ **Instant booking** pour providers vérifiés
+- ✅ API slots disponibles par date
+
+### 32. Réservation Instantanée 🚀 **V2.0**
+- ✅ **Sans confirmation** pour providers vérifiés
+- ✅ Auto-accept si disponible dans calendrier
+- ✅ Notification immédiate push + chat
+- ✅ Fallback vers confirmation manuelle
+- ✅ Flag instant_booking_enabled
+- ✅ +40% taux de conversion
+
+### 33. Pricing Dynamique 🚀 **V2.0**
+- ✅ **Surge pricing**: Heures pointe (+30%), Weekend (+15%)
+- ✅ **Urgence** (+25%)
+- ✅ **Demand-based**: High (+20%), Very High (+40%)
+- ✅ **Discounts** heures creuses (-10%)
+- ✅ **Pricing par zone** (Tunis +20%, Sousse +10%)
+- ✅ **Provider multipliers** (rating, expérience, badges)
+- ✅ Surge forecasting & best time recommendations
+- ✅ +15-20% revenus estimés
+
+### 34. Programme de Parrainage 🚀 **V2.0**
+- ✅ **Code unique** par utilisateur (auto-généré)
+- ✅ **Dual rewards**: Parrain 20 TND + Filleul 10 TND
+- ✅ Qualification: Minimum 50 TND première réservation
+- ✅ **Wallet system** intégré
+- ✅ Tracking: pending → completed → rewarded
+- ✅ Statistiques & leaderboard
+- ✅ Application wallet aux paiements
+- ✅ 40% nouveaux users via parrainage (projection)
+
+### 35. Wallet Utilisateur 🚀 **V2.0**
+- ✅ **Balance tracking** en temps réel
+- ✅ **Sources multiples**: referral, cashback, bonus, refund
+- ✅ **Crédit/débit** operations
+- ✅ **Historique transactions** complet
+- ✅ Application automatique aux réservations
+- ✅ Métadonnées par transaction
+
 ## 🗄️ Base de Données
 
-**16 tables PostgreSQL implémentées:**
+**23 tables PostgreSQL implémentées:**
 
-- **users**: Utilisateurs (UUID, types, soft deletes, FCM token)
+- **users**: Utilisateurs (UUID, types, FCM token, referral_code, instant_booking)
 - **clients**: Profils clients avec loyalty points
 - **providers**: Profils prestataires avec ratings
 - **addresses**: Adresses multiples avec géocodage
@@ -404,6 +459,13 @@ docker-compose exec backend php artisan db:seed
 - **payouts**: Versements prestataires
 - **notifications**: Notifications système
 - **audit_logs**: Logs d'audit pour traçabilité 🎯 **V1.5**
+- **conversations**: Conversations chat par réservation 🚀 **V2.0**
+- **messages**: Messages chat (texte, image, location) 🚀 **V2.0**
+- **provider_availability**: Planning hebdomadaire providers 🚀 **V2.0**
+- **provider_blocked_slots**: Créneaux bloqués spécifiques 🚀 **V2.0**
+- **referrals**: Tracking programme parrainage 🚀 **V2.0**
+- **user_wallets**: Wallet balance par utilisateur 🚀 **V2.0**
+- **wallet_transactions**: Historique transactions wallet 🚀 **V2.0**
 
 ## 🔐 Sécurité
 
