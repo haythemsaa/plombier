@@ -21,6 +21,10 @@ Route::get('/service-categories', [ServiceController::class, 'categories']);
 // Provider routes (public)
 Route::post('/providers/search', [ProviderController::class, 'search']);
 Route::get('/providers/{id}', [ProviderController::class, 'show']);
+Route::get('/providers/{id}/reviews', [ReviewController::class, 'providerReviews']);
+
+// Public reviews
+Route::get('/reviews/featured', [ReviewController::class, 'featured']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -34,6 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/bookings', [BookingController::class, 'index']);
     Route::post('/bookings', [BookingController::class, 'store']);
     Route::get('/bookings/{id}', [BookingController::class, 'show']);
+    Route::get('/bookings/{id}/can-review', [ReviewController::class, 'canReview']);
     Route::post('/bookings/{id}/cancel', [BookingController::class, 'cancel']);
     Route::post('/bookings/{id}/confirm', [BookingController::class, 'confirm']);
     Route::post('/bookings/{id}/start', [BookingController::class, 'start']);
@@ -43,6 +48,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/reviews', [ReviewController::class, 'store']);
     Route::get('/reviews/{id}', [ReviewController::class, 'show']);
     Route::post('/reviews/{id}/response', [ReviewController::class, 'respond']);
+    Route::get('/my-reviews', [ReviewController::class, 'myReviews']);
+    Route::get('/reviews-about-me', [ReviewController::class, 'reviewsAboutMe']);
 
     // Addresses
     Route::get('/addresses', [App\Http\Controllers\Api\AddressController::class, 'index']);
