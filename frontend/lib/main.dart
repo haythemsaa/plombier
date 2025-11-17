@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'core/services/api_service.dart';
 import 'core/services/storage_service.dart';
+import 'core/providers/locale_provider.dart';
+import 'core/providers/theme_provider.dart';
+import 'core/theme/app_theme.dart';
+import 'core/localization/app_localizations.dart';
 import 'features/auth/providers/auth_provider.dart';
 import 'features/booking/providers/booking_provider.dart';
 import 'features/booking/providers/review_provider.dart';
@@ -22,6 +27,11 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        // App-level providers
+        ChangeNotifierProvider(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+
+        // API-related providers
         ChangeNotifierProvider(
           create: (_) => AuthProvider(apiService, storageService),
         ),
@@ -54,26 +64,34 @@ class ServiceHubApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ServiceHub Tunisie',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF2196F3),
-          brightness: Brightness.light,
-        ),
-        useMaterial3: true,
-        fontFamily: 'Cairo',
-      ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF2196F3),
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
-        fontFamily: 'Cairo',
-      ),
-      home: const SplashScreen(),
+    return Consumer2<LocaleProvider, ThemeProvider>(
+      builder: (context, localeProvider, themeProvider, child) {
+        return MaterialApp(
+          title: 'ServiceHub Tunisie',
+          debugShowCheckedModeBanner: false,
+
+          // Theme
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: themeProvider.themeMode,
+
+          // Localization
+          locale: localeProvider.locale,
+          supportedLocales: const [
+            Locale('en', ''),
+            Locale('fr', ''),
+            Locale('ar', ''),
+          ],
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+
+          home: const SplashScreen(),
+        );
+      },
     );
   }
 }
