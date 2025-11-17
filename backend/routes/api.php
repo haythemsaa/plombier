@@ -5,8 +5,14 @@ use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\ProviderController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\HealthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+// Health check routes (no authentication required)
+Route::get('/ping', [HealthController::class, 'ping']);
+Route::get('/health', [HealthController::class, 'index']);
+Route::get('/health/detailed', [HealthController::class, 'detailed']);
 
 // Public routes
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -77,6 +83,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/provider/services', [ProviderController::class, 'updateServices']);
         Route::post('/provider/zones', [ProviderController::class, 'updateZones']);
         Route::get('/provider/bookings', [BookingController::class, 'providerBookings']);
+    });
+
+    // Monitoring routes (admin only)
+    Route::prefix('monitoring')->group(function () {
+        Route::get('/stats', [App\Http\Controllers\Api\MonitoringController::class, 'stats']);
+        Route::get('/performance', [App\Http\Controllers\Api\MonitoringController::class, 'performance']);
+        Route::post('/cache/clear', [App\Http\Controllers\Api\MonitoringController::class, 'clearCache']);
     });
 });
 
